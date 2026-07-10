@@ -1,0 +1,3 @@
+sympy
+openai
+llama-cpp-python
