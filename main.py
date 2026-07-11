@@ -1,6 +1,6 @@
 """
 Track 1: Hybrid Token-Efficient Routing Agent
-ponytail: 3 deps (sympy, openai, llama-cpp-python), 3-tier pipeline
+ponytail: 2 deps (sympy, openai), 2-tier pipeline (deterministic + cloud)
 """
 
 import os
@@ -17,7 +17,6 @@ import sympy
 from sympy import Symbol, solve
 
 from cloud import cloud
-from local_llm import local_infer
 
 
 # ─── QUERY NORMALIZATION ─────────────────────────────────────────────────────
@@ -1455,15 +1454,7 @@ def route(query: str) -> dict:
         if result:
             return {"task": task_type, "source": "local_exec", "answer": result}
 
-    # ponytail: Tier 1 — local LLM (0 tokens)
-    try:
-        result = local_infer(query, task_type)
-        if result:
-            return {"task": task_type, "source": "local_llm", "answer": result}
-    except Exception:
-        pass
-
-    # ponytail: Tier 2 — cloud fallback (token cost)
+    # ponytail: Tier 1 — cloud fallback (token cost)
     try:
         answer = cloud(query, task_type)
         return {"task": task_type, "source": "cloud", "answer": answer}

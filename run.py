@@ -38,8 +38,8 @@ def main():
 
     results = [None] * len(tasks)
 
-    # ponytail: thread pool with 30s per-task timeout, 8 workers
-    with ThreadPoolExecutor(max_workers=8) as pool:
+    # ponytail: thread pool with 30s per-task timeout, 4 workers
+    with ThreadPoolExecutor(max_workers=4) as pool:
         futures = {}
         for i, task in enumerate(tasks):
             futures[pool.submit(_run_one, task)] = i

@@ -1,3 +1,2 @@
 sympy
-openai
-llama-cpp-python
+openai>=1.30.0
