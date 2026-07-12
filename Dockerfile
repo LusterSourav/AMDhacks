@@ -1,5 +1,12 @@
-FROM python:3.12-slim
+FROM python:3.11-slim
+
 WORKDIR /app
-RUN pip install --no-cache-dir "openai>=1.30.0" sympy
-COPY . .
-CMD ["python", "run.py"]
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY agent.py fireworks_client.py cloud.py main.py baseline_router.py code_exec.py run.py ./
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python3", "agent.py"]
