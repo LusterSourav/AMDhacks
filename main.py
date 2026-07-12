@@ -283,6 +283,10 @@ def solve_sentiment(query: str) -> str:
     words = re.findall(r'\b\w+\b', q_lower)
     word_set = set(words)
 
+    # ponytail: complex sentiment queries need cloud
+    if any(kw in q_lower for kw in ['sarcasm', 'clause-level', 'aspect-based', 'intensifier', 'pragmatic intent']):
+        return None
+
     pos_count = len(word_set & POSITIVE)
     neg_count = len(word_set & NEGATIVE)
 
@@ -338,6 +342,10 @@ NER_PATTERNS = {
 
 
 def solve_ner(query: str) -> str:
+    # ponytail: fine-grained NER needs cloud
+    if any(kw in query.lower() for kw in ['fine-grained', 'historical pseudonyms', 'subsidiary shell', 'disputed geopolit', 'subsidiaries']):
+        return None
+
     entities = []
     seen = set()
 

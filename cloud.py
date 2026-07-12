@@ -46,9 +46,9 @@ def _select_model(category: str, allowed_models: list) -> str:
 # ─── PROMPTS (plain text, no JSON, category-specific) ───────────────────────
 
 _PROMPTS = {
-    "math": "Solve this math problem. Give ONLY the final answer, nothing else.\n\nQuestion: {query}\nAnswer:",
-    "sentiment": "Classify the sentiment: Positive, Negative, Neutral, or Mixed.\n\nReview: {query}\nAnswer:",
-    "ner": "Extract named entities as PERSON, ORGANIZATION, LOCATION, DATE.\n\nText: {query}\nAnswer:",
+    "math": "Solve this math problem. Work step by step then give ONLY the final answer on the last line.\n\nQuestion: {query}\nSolution:",
+    "sentiment": "Analyze the sentiment. Identify sarcasm, clause-level valences, and overall pragmatic intent. End with overall label: Positive/Negative/Neutral/Mixed.\n\nReview: {query}\nAnalysis:",
+    "ner": "Extract named entities. Use fine-grained categories: PERSON (incl. pseudonyms), ORG (incl. subsidiaries), GPE (incl. disputed territories), DATE.\n\nText: {query}\nEntities:",
     "factual": "Answer this question concisely.\n\nQuestion: {query}\nAnswer:",
     "summarization": "Follow the exact formatting instructions in the query. Do not add or skip any format requirements.\n\n{query}\n\nAnswer:",
     "code_debug": "Find the bug in this code and how to fix it.\n\nCode: {query}\nBug:",
@@ -58,8 +58,8 @@ _PROMPTS = {
 }
 
 _MAX_TOKENS = {
-    "math": 512, "sentiment": 256, "ner": 256, "factual": 1024,
-    "summarization": 512, "code_debug": 1024, "code_gen": 1024, "logic": 256,
+    "math": 1024, "sentiment": 768, "ner": 512, "factual": 3072,
+    "summarization": 1024, "code_debug": 2048, "code_gen": 1024, "logic": 512,
     "default": 512,
 }
 
