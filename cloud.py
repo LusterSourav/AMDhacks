@@ -76,19 +76,12 @@ def cloud(query: str, task_type: str = "default", difficulty: str = "easy") -> s
     prompt = _PROMPTS.get(task_type, _PROMPTS["default"]).format(query=query)
 
     # Try primary model via fireworks_client (3 retries, 20s timeout)
-    try:
-        result = chat(model, prompt, max_tokens=max_tokens)
-        return result["text"]
-    except Exception:
-        pass
-
-    # Try ALL other allowed models as fallback
-    for m in allowed:
-        if m == model:
-            continue
+    for m in [model] + [x for x in allowed if x != model]:
         try:
             result = chat(m, prompt, max_tokens=max_tokens)
-            return result["text"]
+            text = result["text"]
+            if text and len(text) > 5:
+                return text
         except Exception:
             continue
 

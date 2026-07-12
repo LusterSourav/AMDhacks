@@ -284,7 +284,10 @@ def solve_sentiment(query: str) -> str:
     word_set = set(words)
 
     # ponytail: complex sentiment queries need cloud
-    if any(kw in q_lower for kw in ['sarcasm', 'clause-level', 'aspect-based', 'intensifier', 'pragmatic intent']):
+    if any(kw in q_lower for kw in ['sarcasm', 'clause-level', 'aspect-based', 'intensifier',
+                                     'pragmatic intent', 'phrase-level', 'irony', 'vacillation',
+                                     'valence shifter', 'polysemous', 'dependency graph',
+                                     'adversarial phrase']):
         return None
 
     pos_count = len(word_set & POSITIVE)
@@ -343,7 +346,9 @@ NER_PATTERNS = {
 
 def solve_ner(query: str) -> str:
     # ponytail: fine-grained NER needs cloud
-    if any(kw in query.lower() for kw in ['fine-grained', 'historical pseudonyms', 'subsidiary shell', 'disputed geopolit', 'subsidiaries']):
+    if any(kw in query.lower() for kw in ['fine-grained', 'historical pseudonyms', 'subsidiary shell', 'disputed geopolit',
+                                           'subsidiaries', 'fractured subsidiary', 'contested geopolit',
+                                           'span offset', 'overlapping jurisdiction']):
         return None
 
     entities = []
